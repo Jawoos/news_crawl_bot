@@ -264,5 +264,6 @@ token_data.txt
 .idea/
 log.txt
 improve/
+temp.py
 
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm,venv

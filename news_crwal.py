@@ -21,11 +21,10 @@ def save_log(log_msg):
 
 
 def save_improve(improve_msg):
-    # print('test')
-    # print(msg['text'])
     date = str(datetime.today().year) + '-' + str(datetime.today().month) + '-' + str(datetime.today().day)
     path = './improve/'
     file_name = path + date + '.txt'
+    # print(file_name)
     person_name = improve_msg['chat']['first_name'] + ' ' + improve_msg['chat']['last_name'] + '(' + str(improve_msg['chat']['id']) + '): '
     # print(improve_msg['chat']['id'])
     log_file = open(file_name, "a", encoding="UTF8")
@@ -152,11 +151,10 @@ def Chatbot(msg):
             cursor = conn.cursor()
             sql = "INSERT INTO user(usnum, usname, investKR_news, naver_news) VALUES (" + str(chat_id) + \
                   ", '" + msg['chat']['first_name'] + " " + msg['chat']['last_name'] + "', 0, 0);"
-            print(sql)
+            # print(sql)
             cursor.execute(sql)  # 데베에 유저 정보 등록
             save_log(sql)
             conn.commit()
-
     else:
         save_improve(msg)
     conn.close()
