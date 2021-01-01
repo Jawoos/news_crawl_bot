@@ -292,8 +292,8 @@ sql = "SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1"
 cursor.execute(sql)
 save_log(sql)
 test = cursor.fetchall()
-# for tid in test:
-#     bot.sendMessage(tid[0], "봇이 다시 실행 되었습니다!!!\n유익한 뉴스를 다시 제공해 드리겠습니다~~!")
+for tid in test:
+    bot.sendMessage(tid[0], "봇이 다시 실행 되었습니다!!!\n유익한 뉴스를 다시 제공해 드리겠습니다~~!")
 conn.close()
 while True:     # 뉴스 크롤링 파트
     crawl_invest(str_url)
