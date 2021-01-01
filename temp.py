@@ -64,8 +64,8 @@ def Chatbot(msg):
     if msg['text'] == "/Subscribe_investKR_News":    # invest.kr 뉴스 구독
         if len(row) == 0:      # 데베에 등록되어 있지 않다면
             cursor = conn.cursor()
-            sql = "INSERT INTO user(usnum, investKR_news, naver_news) VALUES (" + str(
-                    chat_id) + ", 1, 0);"
+            sql = "INSERT INTO user(usnum, usname, investKR_news, naver_news) VALUES (" + str(chat_id) + \
+                  ", '" + msg['chat']['first_name'] + " " + msg['chat']['last_name'] + "', 1, 0);"
             cursor.execute(sql)     # 데베에 유저 정보 등록
             save_log(sql)
             conn.commit()
@@ -104,8 +104,8 @@ def Chatbot(msg):
     elif msg['text'] == "/Subscribe_Naver_News":    # Naver 뉴스 구독
         if len(row) == 0:      # 데베에 등록되어 있지 않다면
             cursor = conn.cursor()
-            sql = "INSERT INTO user(usnum, investKR_news, naver_news) VALUES (" + str(
-                    chat_id) + ", 0, 1);"
+            sql = "INSERT INTO user(usnum, usname, investKR_news, naver_news) VALUES (" + str(chat_id) + \
+                  ", '" + msg['chat']['first_name'] + " " + msg['chat']['last_name'] + "', 0, 1);"
             cursor.execute(sql)     # 데베에 유저 정보 등록
             save_log(sql)
             conn.commit()
@@ -146,6 +146,17 @@ def Chatbot(msg):
     #     MessageLoop(bot, save_improve)
     elif msg['text'] == "/help":
         bot.sendMessage(chat_id, help_str)
+    elif msg['text'] == "/start":
+        bot.sendMessage(chat_id, help_str)
+        if len(row) == 0:
+            cursor = conn.cursor()
+            sql = "INSERT INTO user(usnum, usname, investKR_news, naver_news) VALUES (" + str(chat_id) + \
+                  ", '" + msg['chat']['first_name'] + " " + msg['chat']['last_name'] + "', 0, 0);"
+            print(sql)
+            cursor.execute(sql)  # 데베에 유저 정보 등록
+            save_log(sql)
+            conn.commit()
+
     else:
         save_improve(msg)
     conn.close()
@@ -293,7 +304,18 @@ cursor.execute(sql)
 save_log(sql)
 test = cursor.fetchall()
 for tid in test:
-    bot.sendMessage(tid[0], "봇이 다시 실행 되었습니다!!!\n유익한 뉴스를 다시 제공해 드리겠습니다~~!")
+    try:
+        bot.sendMessage(tid[0], "봇이 다시 실행 되었습니다!\n"
+                                "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
+                                "사용법이 궁금하시다면 /help 를 입력해주세요!!")
+    except telepot.exception.BotWasBlockedError:
+        print("err", end = ' ')
+        print(tid[0])
+        sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+        cursor.execute(sql_temp)
+        save_log(sql)
+        conn.commit()
+        time.sleep(100)
 conn.close()
 while True:     # 뉴스 크롤링 파트
     crawl_invest(str_url)
