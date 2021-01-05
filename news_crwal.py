@@ -52,16 +52,20 @@ def signal_handler(sig, frame):
         cursor.execute(sql)
         save_log(sql)
         test = cursor.fetchall()
-        for tid in test:
-            bot_send.sendMessage(tid[0], "봇이 정지 되었습니다!!!\n금방 다시 실행되겠습니다~~!")
+        temp_pid = os.fork()
+        if temp_pid == 0:
+            bot_send = telepot.Bot(test_token)  # for test
+            for tid in test:
+                bot_send.sendMessage(tid[0], "봇이 정지 되었습니다!!!\n금방 다시 실행되겠습니다~~!")
+                os._exit(0)
         conn.close()
         # os.kill(pid, signal.SIGINT)
-    sys.exit(0)
+    os._exit(0)
 
 
 def crawl_invest(str0):
     print('invest')
-    global count_invest_err, admin_id, bot_send, count_popular, db_port, db_name, db_user, db_ip, db_pw
+    global count_invest_err, admin_id, count_popular, db_port, db_name, db_user, db_ip, db_pw
     try:
         req = Request(str0)
         req.add_header('User-Agent', 'Mozilla/5.0')
@@ -89,8 +93,12 @@ def crawl_invest(str0):
                 cursor.execute(sql)  # 데베에 등록
                 save_log(sql)
                 test = cursor.fetchall()
-                for tid in test:
-                    bot_send.sendMessage(tid[0], msg)
+                temp_pid = os.fork()
+                if temp_pid == 0:
+                    bot_send = telepot.Bot(test_token)  # for test
+                    for tid in test:
+                        bot_send.sendMessage(tid[0], msg)
+                    os._exit(0)
                 conn.close()
 
         time.sleep(60)
@@ -99,14 +107,18 @@ def crawl_invest(str0):
         print("error" + str(count_invest_err))
         if count_invest_err >= 500:
             print("err")
-            bot_send.sendMessage(admin_id, "도메인에 문제가 있습니다.")
+            temp_pid = os.fork()
+            if temp_pid == 0:
+                bot_alarm = telepot.Bot(alarm_token)  # for alarm
+                bot_alarm.sendMessage(admin_id, "도메인에 문제가 있습니다.")
+                os._exit(0)
             count_invest_err = 0
         time.sleep(10)
 
 
 def crawl_naver():
     print('naver')
-    global count_naver_err, admin_id, bot_send, count_naver, db_port, db_name, db_user, db_ip, db_pw
+    global count_naver_err, admin_id, count_naver, db_port, db_name, db_user, db_ip, db_pw
     try:
         req = Request('https://finance.naver.com/news/news_list.nhn?mode=RANK')
         req.add_header('User-Agent', 'Mozilla/5.0')
@@ -134,16 +146,23 @@ def crawl_naver():
                 cursor.execute(sql)  # 데베에 등록
                 save_log(sql)
                 test = cursor.fetchall()
-                for tid in test:
-                    bot_send.sendMessage(tid[0], msg)
+                temp_pid = os.fork()
+                if temp_pid == 0:
+                    bot_send = telepot.Bot(test_token)  # for test
+                    for tid in test:
+                        bot_send.sendMessage(tid[0], msg)
+                    os._exit(0)
                 conn.close()
-        time.sleep(10)
     except:
         count_naver_err += 1
         print("error" + str(count_naver))
         if count_naver_err >= 500:
             print("err")
-            bot_send.sendMessage(admin_id, "도메인에 문제가 있습니다.")
+            temp_pid = os.fork()
+            if temp_pid == 0:
+                bot_alarm = telepot.Bot(alarm_token)  # for alarm
+                bot_alarm.sendMessage(admin_id, "도메인에 문제가 있습니다.")
+                os._exit(0)
             count_naver_err = 0
         time.sleep(10)
 
@@ -176,6 +195,7 @@ def cmd_task_buttons(update, context):
                     InlineKeyboardButton('국제 뉴스 구독 해제', callback_data=4)],
                     [InlineKeyboardButton('개발자에게 건의사항', callback_data=7)]]
     reply_markup = InlineKeyboardMarkup(task_buttons)
+    # context.bot.edit_message_text(
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text='아래 작업중 하나를 선택해 주세요!!',
@@ -184,7 +204,7 @@ def cmd_task_buttons(update, context):
 
 
 def cb_button(update, context):
-    global improve_msg, updater, dispatcher
+    global improve_msg, improve_check, ppid
     # database setting
     conn = pymysql.connect(host=db_ip, user=db_user, password=db_pw, database=db_name, port=db_port);
     cursor = conn.cursor()
@@ -321,37 +341,24 @@ def cb_button(update, context):
             message_id=query.message.message_id
         )
     if data == '7':
-        message_handler = MessageHandler(Filters.text, get_message)
-        dispatcher.add_handler(message_handler)
-        while improve_msg == "":
-            continue
-        print(improve_msg)
-        improve_msg = ""
-        dispatcher.remove_handler(message_handler)
-        # bot = telepot.Bot(test_token)
-        # resp = bot.update
-        # print(resp)
-
-        # print(update.message)
-        # chat = telegram.Bot(token=test_token)
-        # updates = chat.getUpdates()
-        # print(updates)
-        # for u in updates:
-        #     print(u.message)
-
-
-    # context.bot.edit_message_text(
-    #     text='[{}] 작업을 완료하였습니다.'.format(data),
-    #     chat_id=query.message.chat_id,
-    #     message_id=query.message.message_id
-    # )
+        ppid = os.fork()
+        if ppid != 0:
+            pass
     conn.close()
 
 
 def get_message(update, context):
-    global improve_msg
-    print(update)
-    improve_msg = update
+    global improve_msg, improve_check, ppid
+    if ppid != 0:
+        print('change_msg')
+        improve_msg = update
+        temp_pid = os.fork()
+        if temp_pid == 0:
+            bot_alarm = telepot.Bot(alarm_token)  # for alarm
+            bot_alarm.sendMessage(admin_id, update.message.text)
+            os._exit(0)
+            print('fuck')
+        ppid = 0
 
 
 
@@ -380,6 +387,7 @@ test_token = token_file.readline()
 test_token = test_token[:len(test_token) - 1]
 alarm_token = token_file.readline()
 admin_id = id_file.readline()
+admin_id = admin_id[1:]
 db_ip = db_file.readline()
 db_ip = db_ip[:len(db_ip)-1]
 db_user = db_file.readline()
@@ -396,6 +404,8 @@ db_file.close()
 
 tele_id = []
 
+ppid = 0
+improve_check = 0
 improve_msg = ""
 for_the_first = 0
 count_err_msg = 0
@@ -409,10 +419,9 @@ queue_naver = []
 signal.signal(signal.SIGINT, signal_handler)
 
 
-# bot = telepot.Bot(my_token)
-bot_send = telepot.Bot(test_token)     # for test
-# MessageLoop(bot, Chatbot).run_as_thread()
-
+# bot = telepot.Bot(my_token)       # for real
+# bot_send = telepot.Bot(test_token)     # for test
+# bot_alarm = telepot(alarm_token)       # for alert
 
 updater = Updater(token=test_token, use_context=True)
 dispatcher = updater.dispatcher
@@ -420,38 +429,42 @@ dispatcher = updater.dispatcher
 start_handler = CommandHandler('start', start_command)
 task_buttons_handler = CommandHandler('tasks', cmd_task_buttons)
 button_callback_handler = CallbackQueryHandler(cb_button)
+message_handler = MessageHandler(Filters.text, get_message)
 
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(task_buttons_handler)
 dispatcher.add_handler(button_callback_handler)
+dispatcher.add_handler(message_handler)
 
 pid = os.fork()
-if pid == 0:
+if pid != 0:       # parent
+    print('parent = ', end="")
+    print(os.getpid())
     updater.start_polling()
     updater.idle()
-
-
-conn = pymysql.connect(host=db_ip, user=db_user, password=db_pw, database=db_name, port=db_port);
-cursor = conn.cursor()
-sql = "SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1"
-cursor.execute(sql)
-save_log(sql)
-test = cursor.fetchall()
-# for tid in test:
-#     try:
-#         bot.sendMessage(tid[0], "봇이 다시 실행 되었습니다!\n"
-#                                 "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
-#                                 "사용법이 궁금하시다면 /help 를 입력해주세요!!")
-#     except telepot.exception.BotWasBlockedError:
-#         print("err", end=' ')
-#         print(tid[0])
-#         sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
-#         cursor.execute(sql_temp)
-#         save_log(sql)
-#         conn.commit()
-#         time.sleep(100)
-conn.close()
-while True:     # 뉴스 크롤링 파트
-    crawl_invest(str_url)
-    crawl_naver()
-    for_the_first = 1
+elif pid == 0:      # child
+    conn = pymysql.connect(host=db_ip, user=db_user, password=db_pw, database=db_name, port=db_port);
+    cursor = conn.cursor()
+    sql = "SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1"
+    cursor.execute(sql)
+    save_log(sql)
+    test = cursor.fetchall()
+    # for tid in test:
+    #     try:
+    #         bot.sendMessage(tid[0], "봇이 다시 실행 되었습니다!\n"
+    #                                 "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
+    #                                 "사용법이 궁금하시다면 /help 를 입력해주세요!!")
+    #     except telepot.exception.BotWasBlockedError:
+    #         print("err", end=' ')
+    #         print(tid[0])
+    #         sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+    #         cursor.execute(sql_temp)
+    #         save_log(sql)
+    #         conn.commit()
+    #         time.sleep(100)
+    conn.close()
+    # for_the_first = 1
+    while True:  # 뉴스 크롤링 파트
+        crawl_invest(str_url)
+        crawl_naver()
+        for_the_first = 1
