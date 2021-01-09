@@ -422,7 +422,7 @@ def cb_button(update, context):
         )
     elif data == '5':  # 단일 종목 구독
         context.bot.edit_message_text(
-            text='구독 하려는 종목 이름이나 종목 코드를 입력해주세요...!',
+            text='구독 하려는 종목 이름이나 종목 코드를 입력해주세요.',
             chat_id=query.message.chat_id,
             message_id=query.message.message_id
         )
@@ -431,14 +431,14 @@ def cb_button(update, context):
         # if nspid == 0:
     elif data == '6':  # 단일 종목 구독 해제
         context.bot.edit_message_text(
-            text='구독 해제 하려는 종목 이름이나 종목 코드를 입력해주세요...!',
+            text='구독 해제 하려는 종목 이름이나 종목 코드를 입력해주세요.',
             chat_id=query.message.chat_id,
             message_id=query.message.message_id
         )
         kr_stock_delete_id.append(query.message.chat_id)
     elif data == '7':
         context.bot.edit_message_text(
-            text='개발자에게 건의 사항이나 하고 싶은 말 있으시면 타이핑 해주시면 됩니다...!',
+            text='개발자에게 건의 사항이나 하고 싶은 말 있으시면 타이핑 해주시면 됩니다.',
             chat_id=query.message.chat_id,
             message_id=query.message.message_id
         )
@@ -452,7 +452,7 @@ def cb_button(update, context):
 def get_message(update, context):  # 메세지 핸들링
     global improve_msg, dev_message_id, kr_stock_message_id, temp_stock_list
     query = update
-    temp_msg = "여러개의 주식이 검색된었습니다.\n" \
+    temp_msg = "여러개의 주식이 검색되었습니다.\n" \
                "아래중 하나로 다시 검색해 주세요.\n"
     # data = query.data
     if query.message.chat_id in dev_message_id:  # 개발자에게 하고픈 말 핸들링
@@ -466,6 +466,10 @@ def get_message(update, context):  # 메세지 핸들링
     elif query.message.chat_id in kr_stock_message_id:  # 국내 주식 삽입 검색
         ppid = os.fork()
         if ppid == 0:
+            text_info = context.bot.send_message(
+                chat_id=update.message.chat_id,
+                text='잠시만 기다려주세요...',
+            )
             user_stock_input = update.message.text
             if user_stock_input.isdigit():   # 입력이 종목 코드일때
                 temp_stock_list = get_stock_id(user_stock_input)
@@ -477,14 +481,16 @@ def get_message(update, context):  # 메세지 핸들링
                     )
                 elif len(temp_stock_list) == 1:  # 검색 결과가 하나 일때
                     if insert_kr_stock(user_stock_input, href, update) == -1:
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='이미 구독중인 주식 종목 입니다.'
+                            text='이미 구독중인 주식 종목 입니다.',
+                            message_id=text_info.message_id
                         )
                     else:
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 되었습니다."
+                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 되었습니다.",
+                            message_id=text_info.message_id
                         )
             else:   # 입력이 종목 이름일때
                 temp_stock_list = get_stock_id(user_stock_input)
@@ -492,31 +498,35 @@ def get_message(update, context):  # 메세지 핸들링
                 if len(temp_stock_list) == 0:  # 검색 결과가 없을 때
                     temp_name = get_similar_stock_id(user_stock_input)
                     if temp_name == 'None':
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
                             text='검색하신 주식 항목이 없습니다.',
+                            message_id=text_info.message_id
                         )
                     else:
                         sim_msg = "혹시 검색하신 주식이 '"
                         sim_msg += temp_name
                         sim_msg += "' 아닌가요?\n 위에 결과로 검색해도 나오지 않는다면 \n" \
                                    "종목 코드로 검색 부탁 드립니다"
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
                             text=sim_msg,
+                            message_id=text_info.message_id
                         )
                 elif len(temp_stock_list) == 1:  # 검색 결과가 하나 일때
                     stock_number = temp_stock_list[0].find(class_='second').text
                     href = temp_stock_list[0]['href']
                     if insert_kr_stock(stock_number, href, update) == -1:
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='이미 구독중인 주식 종목 입니다.'
+                            text='이미 구독중인 주식 종목 입니다.',
+                            message_id=text_info.message_id
                         )
                     else:
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='종목코드(' + stock_number + ") 관련 뉴스가 구독 되었습니다."
+                            text='종목코드(' + stock_number + ") 관련 뉴스가 구독 되었습니다.",
+                            message_id=text_info.message_id
                         )
                 else:
                     for i in range(len(temp_stock_list)):
@@ -537,6 +547,10 @@ def get_message(update, context):  # 메세지 핸들링
     elif query.message.chat_id in kr_stock_delete_id:  # 국내 주식 삭제 검색
         ppid = os.fork()
         if ppid == 0:
+            text_info = context.bot.send_message(
+                chat_id=update.message.chat_id,
+                text='잠시만 기다려주세요...',
+            )
             user_stock_input = update.message.text
             if user_stock_input.isdigit():  # 입력이 종목 코드일때
                 temp_stock_list = get_stock_id(user_stock_input)
@@ -547,14 +561,16 @@ def get_message(update, context):  # 메세지 핸들링
                     )
                 elif len(temp_stock_list) == 1:  # 검색 결과가 하나 일때
                     if delete_kr_stock(user_stock_input, update) == -1:
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='구독중이 아닌 주식 종목 입니다.'
+                            text='구독중이 아닌 주식 종목 입니다.',
+                            message_id=text_info.message_id
                         )
                     else:
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 해제 되었습니다."
+                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 해제 되었습니다.",
+                            message_id=text_info.message_id
                         )
             else:  # 입력이 종목 이름일때
                 temp_stock_list = get_stock_id(user_stock_input)
@@ -562,30 +578,34 @@ def get_message(update, context):  # 메세지 핸들링
                 if len(temp_stock_list) == 0:  # 검색 결과가 없을 때
                     temp_name = get_similar_stock_id(user_stock_input)
                     if temp_name == 'None':
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
                             text='검색하신 주식 항목이 없습니다.',
+                            message_id=text_info.message_id
                         )
                     else:
                         sim_msg = "혹시 검색하신 주식이 '"
                         sim_msg += temp_name
                         sim_msg += "' 아닌가요?\n 위에 결과로 검색해도 나오지 않는다면 \n" \
                                    "종목 코드로 검색 부탁 드립니다"
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
                             text=sim_msg,
+                            message_id=text_info.message_id
                         )
                 elif len(temp_stock_list) == 1:  # 검색 결과가 하나 일때
                     stock_number = temp_stock_list[0].find(class_='second').text
                     if delete_kr_stock(stock_number, update) == -1:
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='구독중이 아닌 주식 종목 입니다.'
+                            text='구독중이 아닌 주식 종목 입니다.',
+                            message_id=text_info.message_id
                         )
                     else:
-                        context.bot.send_message(
+                        context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 해제 되었습니다."
+                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 해제 되었습니다.",
+                            message_id=text_info.message_id
                         )
                 else:
                     for i in range(len(temp_stock_list)):
@@ -596,9 +616,10 @@ def get_message(update, context):  # 메세지 핸들링
                         temp_msg += '\t/\t'
                         temp_msg += temp_stock_list[i].find(class_='fourth').text
                         temp_msg += '\n'
-                    context.bot.send_message(
+                    context.bot.edit_message_text(
                         chat_id=update.message.chat_id,
                         text=temp_msg,
+                        message_id=text_info.message_id
                     )
             os._exit(0)
             print('not_exit\n\n\n\n\n')
@@ -791,23 +812,23 @@ elif pid != 0:  # child
     cursor.execute(sql)
     save_log(sql)
     test = cursor.fetchall()
-    for tid in test:
-        try:
-            updater.bot.send_message(
-                chat_id=tid[0],
-                text="봇이 다시 실행 되었습니다!\n"
-                     "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
-                     "기능을 이용하시려면 /tasks 를 입력해주세요."
-                     "사용법이 궁금하시다면 /help 를 입력해주세요!!",
-            )
-        except telepot.exception.BotWasBlockedError:
-            print("err", end=' ')
-            print(tid[0])
-            sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
-            cursor.execute(sql_temp)
-            save_log(sql)
-            conn.commit()
-            time.sleep(100)
+    # for tid in test:
+    #     try:
+    #         updater.bot.send_message(
+    #             chat_id=tid[0],
+    #             text="봇이 다시 실행 되었습니다!\n"
+    #                  "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
+    #                  "기능을 이용하시려면 /tasks 를 입력해주세요."
+    #                  "사용법이 궁금하시다면 /help 를 입력해주세요!!",
+    #         )
+    #     except telepot.exception.BotWasBlockedError:
+    #         print("err", end=' ')
+    #         print(tid[0])
+    #         sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+    #         cursor.execute(sql_temp)
+    #         save_log(sql)
+    #         conn.commit()
+    #         time.sleep(100)
     conn.close()
     # for_the_first = 1
     while True:  # 뉴스 크롤링 파트
