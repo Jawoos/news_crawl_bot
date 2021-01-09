@@ -1,0 +1,263 @@
+Sat Jan  9 13:14:33 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:14:33 2021: SELECT krStockID FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 13:14:35 2021: SIGINT
+Sat Jan  9 13:14:35 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:26:15 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:26:29 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:26:46 2021: SIGINT
+Sat Jan  9 13:26:46 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:27:47 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:27:53 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:28:01 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:28:01 2021: SELECT * FROM `kr_subs` WHERE `usnum` = '692359259' and `krStockID` = 005935;
+Sat Jan  9 13:28:04 2021: SIGINT
+Sat Jan  9 13:28:04 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:29:18 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:29:18 2021: SIGINT
+Sat Jan  9 13:29:18 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:29:24 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:29:31 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:29:38 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:29:38 2021: SELECT * FROM `kr_subs` WHERE `usnum` = '692359259' and `krStockID` = 005935;
+Sat Jan  9 13:29:47 2021: SIGINT
+Sat Jan  9 13:29:47 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:30:07 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:30:13 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:30:21 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:30:21 2021: SELECT * FROM `kr_subs` WHERE `usnum` = '692359259' and `krStockID` = 005935;
+Sat Jan  9 13:30:28 2021: SIGINT
+Sat Jan  9 13:30:28 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:31:55 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:32:04 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:32:11 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:32:11 2021: SELECT * FROM `kr_subs` WHERE `usnum` = '692359259' and `krStockID` = 005935;
+Sat Jan  9 13:32:37 2021: SIGINT
+Sat Jan  9 13:32:37 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:32:47 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:32:52 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:32:59 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:32:59 2021: SELECT * FROM `kr_subs` WHERE `usnum` = '692359259' and `krStockID` = 005935;
+Sat Jan  9 13:33:04 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:33:12 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:33:12 2021: SELECT * FROM `kr_subs` WHERE `usnum` = '692359259' and `krStockID` = 005935;
+Sat Jan  9 13:33:16 2021: SIGINT
+Sat Jan  9 13:33:16 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:34:06 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:34:11 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:34:19 2021: SELECT * FROM `kr_subs` WHERE `krStockID` = '005380' and `usnum` = '692359259';
+Sat Jan  9 13:34:20 2021: DELETE FROM `kr_subs` WHERE `krStockID` = '005380' and `usnum` = '692359259';
+Sat Jan  9 13:34:29 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:34:37 2021: SELECT * FROM `kr_subs` WHERE `krStockID` = '005935' and `usnum` = '692359259';
+Sat Jan  9 13:34:37 2021: DELETE FROM `kr_subs` WHERE `krStockID` = '005935' and `usnum` = '692359259';
+Sat Jan  9 13:34:44 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:34:51 2021: SELECT * FROM `kr_subs` WHERE `krStockID` = '012330' and `usnum` = '692359259';
+Sat Jan  9 13:34:51 2021: DELETE FROM `kr_subs` WHERE `krStockID` = '012330' and `usnum` = '692359259';
+Sat Jan  9 13:36:33 2021: SIGINT
+Sat Jan  9 13:36:33 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:36:39 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:36:49 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:37:17 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:37:25 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:37:39 2021: SIGINT
+Sat Jan  9 13:37:39 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:37:44 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:37:50 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:37:58 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:38:01 2021: SIGINT
+Sat Jan  9 13:38:01 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:38:42 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:38:47 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 13:38:54 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005935';
+Sat Jan  9 13:38:54 2021: INSERT INTO `kr_stock_id`(`krStockID`, `href`) VALUES ('005935', '/equities/samsung-electronics-co-pref');
+Sat Jan  9 13:38:54 2021: SELECT * FROM `kr_subs` WHERE `usnum` = '692359259' and `krStockID` = 005935;
+Sat Jan  9 13:38:54 2021: INSERT INTO `kr_subs`(`usnum`, `krStockID`) VALUES ('692359259', '005935');
+Sat Jan  9 13:39:22 2021: SIGINT
+Sat Jan  9 13:39:22 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:51:26 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:51:26 2021: SELECT krStockID FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 13:51:29 2021: SIGINT
+Sat Jan  9 13:51:29 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:51:54 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:51:54 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 13:51:55 2021: SIGINT
+Sat Jan  9 13:51:55 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:52:08 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:52:08 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 13:52:09 2021: SIGINT
+Sat Jan  9 13:52:09 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:52:44 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 13:52:44 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 13:52:50 2021: SIGINT
+Sat Jan  9 13:52:50 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:05:57 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:05:57 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:06:02 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 14:06:10 2021: SIGINT
+Sat Jan  9 14:06:10 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:37:25 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:37:25 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:37:36 2021: SIGINT
+Sat Jan  9 14:37:36 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:38:14 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:38:14 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:38:23 2021: SIGINT
+Sat Jan  9 14:38:23 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:41:18 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:41:18 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:41:38 2021: SIGINT
+Sat Jan  9 14:41:38 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:42:37 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:42:37 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:42:47 2021: SIGINT
+Sat Jan  9 14:42:47 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:43:48 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:43:48 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:43:59 2021: SIGINT
+Sat Jan  9 14:43:59 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:44:22 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:44:22 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:44:49 2021: SIGINT
+Sat Jan  9 14:44:49 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:45:02 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:45:02 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:46:15 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:46:15 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:46:43 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:46:43 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:46:46 2021: SIGINT
+Sat Jan  9 14:46:46 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:47:38 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:47:38 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:51:13 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:51:13 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:51:13 2021: SIGINT
+Sat Jan  9 14:51:13 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:53:31 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:53:31 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:53:33 2021: SIGINT
+Sat Jan  9 14:53:33 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:55:35 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:55:35 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:55:36 2021: SIGINT
+Sat Jan  9 14:55:36 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:57:02 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:57:02 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:57:05 2021: SIGINT
+Sat Jan  9 14:57:05 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:57:36 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:57:36 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:58:22 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:58:22 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:58:31 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:58:31 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 14:58:36 2021: SIGINT
+Sat Jan  9 14:58:36 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:58:53 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 14:58:53 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:00:01 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:00:01 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:00:24 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:00:24 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:00:37 2021: SIGINT
+Sat Jan  9 15:00:37 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:01:28 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:01:28 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:01:37 2021: SIGINT
+Sat Jan  9 15:01:37 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:03:00 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:03:00 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:03:01 2021: SIGINT
+Sat Jan  9 15:03:01 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:03:26 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:03:26 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:03:50 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:03:50 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:04:04 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:04:04 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:04:06 2021: SIGINT
+Sat Jan  9 15:04:06 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:04:25 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:04:25 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:05:45 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:06:18 2021: SIGINT
+Sat Jan  9 15:06:18 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:08:51 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:08:51 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:09:00 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 15:09:08 2021: SELECT * FROM `kr_subs` WHERE `krStockID` = '005935' and `usnum` = '692359259';
+Sat Jan  9 15:09:08 2021: DELETE FROM `kr_subs` WHERE `krStockID` = '005935' and `usnum` = '692359259';
+Sat Jan  9 15:09:23 2021: SELECT * FROM `user` where usnum = 692359259;
+Sat Jan  9 15:09:34 2021: SELECT * FROM `kr_stock_id` WHERE `krStockID` = '005380';
+Sat Jan  9 15:09:34 2021: INSERT INTO `kr_stock_id`(`krStockID`, `href`) VALUES ('005380', '/equities/hyundai-motor');
+Sat Jan  9 15:09:34 2021: SELECT * FROM `kr_subs` WHERE `usnum` = '692359259' and `krStockID` = 005380;
+Sat Jan  9 15:09:34 2021: INSERT INTO `kr_subs`(`usnum`, `krStockID`) VALUES ('692359259', '005380');
+Sat Jan  9 15:09:55 2021: SIGINT
+Sat Jan  9 15:09:55 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:10:17 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:10:17 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:10:24 2021: SIGINT
+Sat Jan  9 15:10:24 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:13:24 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:13:24 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:13:32 2021: SIGINT
+Sat Jan  9 15:13:32 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:14:08 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:14:08 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:14:27 2021: SIGINT
+Sat Jan  9 15:14:27 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:15:11 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:15:11 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:15:26 2021: SIGINT
+Sat Jan  9 15:15:26 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:16:36 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:16:36 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:16:49 2021: SIGINT
+Sat Jan  9 15:16:49 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:19:18 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:19:18 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:19:18 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:19:23 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005935
+Sat Jan  9 15:19:25 2021: SIGINT
+Sat Jan  9 15:19:25 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:19:36 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:19:36 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:19:36 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:19:41 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005935
+Sat Jan  9 15:19:42 2021: SIGINT
+Sat Jan  9 15:19:42 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:23:39 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:23:39 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:23:39 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:23:45 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005935
+Sat Jan  9 15:23:57 2021: SIGINT
+Sat Jan  9 15:23:57 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:24:04 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:24:04 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:24:04 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:24:10 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005935
+Sat Jan  9 15:24:11 2021: SIGINT
+Sat Jan  9 15:24:11 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:28:08 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:28:08 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:28:08 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:28:15 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005935
+Sat Jan  9 15:28:17 2021: SIGINT
+Sat Jan  9 15:28:17 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:30:29 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1
+Sat Jan  9 15:30:29 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:30:29 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:30:36 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005935
+Sat Jan  9 15:30:36 2021: DELETE FROM `kr_stock_id` WHERE `krStockID` = 005935
+Sat Jan  9 15:31:58 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:31:58 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:33:20 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:33:20 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:34:42 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:34:42 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:36:04 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:36:04 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:36:24 2021: SELECT `usnum` FROM `user` WHERE `investKR_news` = 1
+Sat Jan  9 15:37:26 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:37:26 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
+Sat Jan  9 15:38:48 2021: SELECT * FROM `kr_stock_id` WHERE 1;
+Sat Jan  9 15:38:48 2021: SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = 005380
