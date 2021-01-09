@@ -272,7 +272,8 @@ def cmd_task_buttons(update, context):
                      InlineKeyboardButton('국제 뉴스 구독 해제', callback_data=4)],
                     [InlineKeyboardButton('국내 개별 종목 뉴스 구독', callback_data=5),
                      InlineKeyboardButton('국내 개별 종목 뉴스 구독 해제', callback_data=6)],
-                    [InlineKeyboardButton('개발자에게 건의사항', callback_data=7)]]
+                    [InlineKeyboardButton('구독중인 종목 보기', callback_data=7)],
+                    [InlineKeyboardButton('개발자에게 건의사항', callback_data=8)]]
     reply_markup = InlineKeyboardMarkup(task_buttons)
     try:
         context.bot.send_message(
@@ -447,7 +448,17 @@ def cb_button(update, context):
             message_id=query.message.message_id
         )
         kr_stock_delete_id.append(query.message.chat_id)
-    elif data == '7':
+    elif data == '7':  # 구독중인 뉴스 종목 표시
+        sub_stock_list = get_personal_sub(query)
+        temp_msg = "현재 구독 중이신 종목\n"
+        for sid in sub_stock_list:
+            temp_msg += '  -' + sid[0] + '\n'
+        context.bot.edit_message_text(
+            text=temp_msg,
+            chat_id=query.message.chat_id,
+            message_id=query.message.message_id
+        )
+    elif data == '8':
         context.bot.edit_message_text(
             text='개발자에게 건의 사항이나 하고 싶은 말 있으시면 타이핑 해주시면 됩니다.',
             chat_id=query.message.chat_id,
@@ -723,9 +734,16 @@ def get_similar_stock_id(value):
         return 'None'
 
 
-def get_personal_sub():
-    print('')
-    sql = 'SELECT `krStockID` FROM `kr_subs` WHERE `usnum` = 692359259'
+def get_personal_sub(query):
+    conn = pymysql.connect(host=db_ip, user=db_user, password=db_pw,
+                           database=db_name, port=db_port);
+    cursor = conn.cursor()
+    sql = "SELECT `krStockID` FROM `kr_subs` WHERE `usnum` = " + str(query.message.chat.id)
+    cursor.execute(sql)
+    save_log(sql)
+    row = cursor.fetchall()
+    return row
+
 
 
 # main
@@ -830,23 +848,23 @@ elif pid != 0:  # child
     cursor.execute(sql)
     save_log(sql)
     test = cursor.fetchall()
-    for tid in test:
-        try:
-            updater.bot.send_message(
-                chat_id=tid[0],
-                text="봇이 다시 실행 되었습니다!\n"
-                     "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
-                     "기능을 이용하시려면 /tasks 를 입력해주세요."
-                     "사용법이 궁금하시다면 /help 를 입력해주세요!!",
-            )
-        except telepot.exception.BotWasBlockedError:
-            print("err", end=' ')
-            print(tid[0])
-            sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
-            cursor.execute(sql_temp)
-            save_log(sql)
-            conn.commit()
-            time.sleep(100)
+    # for tid in test:
+    #     try:
+    #         updater.bot.send_message(
+    #             chat_id=tid[0],
+    #             text="봇이 다시 실행 되었습니다!\n"
+    #                  "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
+    #                  "기능을 이용하시려면 /tasks 를 입력해주세요."
+    #                  "사용법이 궁금하시다면 /help 를 입력해주세요!!",
+    #         )
+    #     except telepot.exception.BotWasBlockedError:
+    #         print("err", end=' ')
+    #         print(tid[0])
+    #         sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+    #         cursor.execute(sql_temp)
+    #         save_log(sql)
+    #         conn.commit()
+    #         time.sleep(100)
     conn.close()
     # for_the_first = 1
     while True:  # 뉴스 크롤링 파트
