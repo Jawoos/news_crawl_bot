@@ -258,6 +258,13 @@ def start_command(update, context):
     conn.close()
 
 
+def help_command(update, context):
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=help_str,
+    )
+
+
 def cmd_task_buttons(update, context):
     task_buttons = [[InlineKeyboardButton('국내 뉴스 구독', callback_data=1),
                      InlineKeyboardButton('국내 뉴스 구독 해제', callback_data=2)],
@@ -690,17 +697,21 @@ base_encode_url = "https://kr.investing.com/search/?q="
 base_simillar_usrl = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query="
 
 start_str = "안녕하세요 채팅봇 베타 버전입니다!!!\n" \
-            "/tasks 명령어를 통해서 다양한 기능을 사용하실 수 있습니다."
+            "/tasks 명령어를 통해서 다양한 기능을 사용하실 수 있습니다.\n" \
+            "사용법은 /help를 통해 보실수 있습니다."
 
 help_str = "안녕하세요 채팅봇 베타 버전입니다!!!\n" \
            "현재 사용 가능한 기능은 아래와 같습니다~\n" \
            "추가로 있었으면 하는 기능이나 문제점을 발견시\n" \
            "말씀해 주시면 감사하겠습니다!!!\n" \
-           "개발자에게 메세지를 보내시고 싶으시면 채팅 치듯이 보내주시면 됩니다!!\n" \
-           "invest.kr 인기 뉴스 구독 하기: /Subscribe_investKR_News\n" \
-           "invest.kr 인기 뉴스 구독해제 하기: /Unsubscribe_investKR_News\n" \
-           "Naver 인기 뉴스 구독 하기: /Subscribe_Naver_News\n" \
-           "Naver 인기 뉴스 구독해제 하기: /Unsubscribe_Naver_News"
+           "국내 뉴스 구독: 국내 인기 주식 뉴스 구독\n" \
+           "국내 뉴스 구독 해제: 국내 인기 주식 뉴스 구독 해제\n" \
+           "국제 뉴스 구독: 국제 인기 주식 뉴스 구독\n" \
+           "국제 뉴스 구독 해제: 국제 인기 주식 뉴스 구독 해제\n" \
+           "국내 개별 종목 뉴스 구독: 원하시는 국내 종목 뉴스 구독\n" \
+           "국내 개별 종목 뉴스 구독 해제: 원하시는 국내 종목 뉴스 구독 해제\n" \
+           "개발자에게 건의사항: 개발자에게 건의하고 싶은 내용 메시지로 보내기"
+
 
 token_file = open("token_data.txt", "r", encoding="UTF8")
 id_file = open("id_data.txt", "r", encoding="UTF8")
@@ -751,15 +762,17 @@ signal.signal(signal.SIGINT, signal_handler)
 # ttocken = my_token    # for real
 ttocken = test_token  # for test
 
-updater = Updater(token=test_token, use_context=True)
+updater = Updater(token=ttocken, use_context=True)
 dispatcher = updater.dispatcher
 
 start_handler = CommandHandler('start', start_command)
+help_handler = CommandHandler('help', help_command)
 task_buttons_handler = CommandHandler('tasks', cmd_task_buttons)
 button_callback_handler = CallbackQueryHandler(cb_button)
 message_handler = MessageHandler(Filters.text, get_message)
 
 dispatcher.add_handler(start_handler)
+dispatcher.add_handler(help_handler)
 dispatcher.add_handler(task_buttons_handler)
 dispatcher.add_handler(button_callback_handler)
 dispatcher.add_handler(message_handler)
@@ -778,19 +791,23 @@ elif pid != 0:  # child
     cursor.execute(sql)
     save_log(sql)
     test = cursor.fetchall()
-    # for tid in test:
-    #     try:
-    #         bot.sendMessage(tid[0], "봇이 다시 실행 되었습니다!\n"
-    #                                 "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
-    #                                 "사용법이 궁금하시다면 /help 를 입력해주세요!!")
-    #     except telepot.exception.BotWasBlockedError:
-    #         print("err", end=' ')
-    #         print(tid[0])
-    #         sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
-    #         cursor.execute(sql_temp)
-    #         save_log(sql)
-    #         conn.commit()
-    #         time.sleep(100)
+    for tid in test:
+        try:
+            updater.bot.send_message(
+                chat_id=tid[0],
+                text="봇이 다시 실행 되었습니다!\n"
+                     "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
+                     "기능을 이용하시려면 /tasks 를 입력해주세요."
+                     "사용법이 궁금하시다면 /help 를 입력해주세요!!",
+            )
+        except telepot.exception.BotWasBlockedError:
+            print("err", end=' ')
+            print(tid[0])
+            sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+            cursor.execute(sql_temp)
+            save_log(sql)
+            conn.commit()
+            time.sleep(100)
     conn.close()
     # for_the_first = 1
     while True:  # 뉴스 크롤링 파트
