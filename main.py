@@ -281,6 +281,11 @@ def cmd_task_buttons(update, context):
             reply_markup=reply_markup
         )
     except:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text='아래 작업중 하나를 선택해 주세요!!',
+            reply_markup=reply_markup
+        )
         pass
 
 
@@ -296,10 +301,16 @@ def cb_button(update, context):
 
     query = update.callback_query
     data = query.data
-    context.bot.send_chat_action(
-        chat_id=update.effective_user.id,
-        action=ChatAction.TYPING
-    )
+    try:
+        context.bot.send_chat_action(
+            chat_id=update.effective_user.id,
+            action=ChatAction.TYPING
+        )
+    except:
+        context.bot.send_chat_action(
+            chat_id=update.effective_user.id,
+            action=ChatAction.TYPING
+        )
     if data == '1':  # 네이버 뉴스 구독
         if len(row) == 0:  # 데베에 등록되어 있지 않다면
             cursor = conn.cursor()
@@ -489,7 +500,7 @@ def get_message(update, context):  # 메세지 핸들링
                     else:
                         context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 되었습니다.",
+                            text=temp_stock_list[0].find(class_='third').text + " 관련 뉴스가 구독 되었습니다.",
                             message_id=text_info.message_id
                         )
             else:   # 입력이 종목 이름일때
@@ -525,7 +536,7 @@ def get_message(update, context):  # 메세지 핸들링
                     else:
                         context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='종목코드(' + stock_number + ") 관련 뉴스가 구독 되었습니다.",
+                            text=temp_stock_list[0].find(class_='third').text + " 관련 뉴스가 구독 되었습니다.",
                             message_id=text_info.message_id
                         )
                 else:
@@ -569,7 +580,8 @@ def get_message(update, context):  # 메세지 핸들링
                     else:
                         context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 해제 되었습니다.",
+                            text=temp_stock_list[0].find(class_='third').text +
+                                 " 관련 뉴스가 구독 해제 되었습니다.",
                             message_id=text_info.message_id
                         )
             else:  # 입력이 종목 이름일때
@@ -604,7 +616,8 @@ def get_message(update, context):  # 메세지 핸들링
                     else:
                         context.bot.edit_message_text(
                             chat_id=update.message.chat_id,
-                            text='종목코드(' + user_stock_input + ") 관련 뉴스가 구독 해제 되었습니다.",
+                            text=temp_stock_list[0].find(class_='third').text +
+                                 " 관련 뉴스가 구독 해제 되었습니다.",
                             message_id=text_info.message_id
                         )
                 else:
@@ -710,6 +723,11 @@ def get_similar_stock_id(value):
         return 'None'
 
 
+def get_personal_sub():
+    print('')
+    sql = 'SELECT `krStockID` FROM `kr_subs` WHERE `usnum` = 692359259'
+
+
 # main
 str_url = "https://kr.investing.com/news/most-popular-news"
 base_invest_url = "https://kr.investing.com/"
@@ -812,23 +830,23 @@ elif pid != 0:  # child
     cursor.execute(sql)
     save_log(sql)
     test = cursor.fetchall()
-    # for tid in test:
-    #     try:
-    #         updater.bot.send_message(
-    #             chat_id=tid[0],
-    #             text="봇이 다시 실행 되었습니다!\n"
-    #                  "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
-    #                  "기능을 이용하시려면 /tasks 를 입력해주세요."
-    #                  "사용법이 궁금하시다면 /help 를 입력해주세요!!",
-    #         )
-    #     except telepot.exception.BotWasBlockedError:
-    #         print("err", end=' ')
-    #         print(tid[0])
-    #         sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
-    #         cursor.execute(sql_temp)
-    #         save_log(sql)
-    #         conn.commit()
-    #         time.sleep(100)
+    for tid in test:
+        try:
+            updater.bot.send_message(
+                chat_id=tid[0],
+                text="봇이 다시 실행 되었습니다!\n"
+                     "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
+                     "기능을 이용하시려면 /tasks 를 입력해주세요."
+                     "사용법이 궁금하시다면 /help 를 입력해주세요!!",
+            )
+        except telepot.exception.BotWasBlockedError:
+            print("err", end=' ')
+            print(tid[0])
+            sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+            cursor.execute(sql_temp)
+            save_log(sql)
+            conn.commit()
+            time.sleep(100)
     conn.close()
     # for_the_first = 1
     while True:  # 뉴스 크롤링 파트
