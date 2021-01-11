@@ -58,7 +58,7 @@ def signal_handler(sig, frame):
         os.kill(pid, signal.SIGKILL)
         os.wait()
         count_err_msg = 1
-        print('SIGINT')
+        print('\nSIGINT')
         save_log('SIGINT')
         conn = pymysql.connect(host=db_ip, user=db_user, password=db_pw, database=db_name, port=db_port);
         cursor = conn.cursor()
@@ -77,6 +77,7 @@ def signal_handler(sig, frame):
 
 def crawl_invest(str0):
     global count_invest_err, admin_id, count_popular, db_port, db_name, db_user, db_ip, db_pw, ttocken
+    # print("invest")
     try:
         req = Request(str0)
         req.add_header('User-Agent', 'Mozilla/5.0')
@@ -106,6 +107,7 @@ def crawl_invest(str0):
                 test = cursor.fetchall()
                 # print('test\n\n\n')
                 for tid in test:
+                    print(tid[0])
                     # bot_origin.sendMessage(tid[0], msg)
                     updater.bot.send_message(
                         chat_id=tid[0],
@@ -129,6 +131,7 @@ def crawl_invest(str0):
 
 def crawl_naver():
     global count_naver_err, admin_id, count_naver, db_port, db_name, db_user, db_ip, db_pw, ttocken
+    # print("naver")
     try:
         req = Request('https://finance.naver.com/news/news_list.nhn?mode=RANK')
         req.add_header('User-Agent', 'Mozilla/5.0')
@@ -177,13 +180,19 @@ def crawl_naver():
 
 
 def crawl_individual_kr():
-    global count_individual_kr_err, admin_id, count_individual_kr, db_port, db_name, db_user, db_ip, db_pw
+    global count_individual_kr_err, admin_id, count_individual_kr, db_port, db_name, db_user, db_ip, db_pw,\
+        check_individual, temp_individual_list
+    # print('individual')
     conn = pymysql.connect(host=db_ip, user=db_user, password=db_pw, database=db_name, port=db_port);
     cursor = conn.cursor()
     sql = "SELECT * FROM `kr_stock_id` WHERE 1;"
     cursor.execute(sql)
     save_log(sql)
     row = cursor.fetchall()
+    for sid in row:
+        if sid[0] not in temp_individual_list:
+            check_individual[sid[0]] = 0
+            temp_individual_list.append(sid[0])
     for sid in row:
         try:
             cursor = conn.cursor()
@@ -192,24 +201,39 @@ def crawl_individual_kr():
             save_log(sql)
             user_list = cursor.fetchall()
             if len(user_list) == 0:     # 아무도 구독하지 않은 주식이면
+                time.sleep(2)
                 cursor = conn.cursor()
-                sql = "DELETE FROM `kr_stock_id` WHERE `krStockID` = " + sid[0]
-                cursor.execute(sql)  # 데베에서 삭제
+                sql = "SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = " + sid[0]
+                cursor.execute(sql)
                 save_log(sql)
-                conn.commit()
-            individual_url = 'https://kr.investing.com' + sid[2] + '-news'
+                user_list = cursor.fetchall()
+                if len(user_list) == 0:
+                    cursor = conn.cursor()
+                    sql = "DELETE FROM `kr_stock_id` WHERE `krStockID` = " + sid[0]
+                    cursor.execute(sql)  # 데베에서 삭제
+                    save_log(sql)
+                    conn.commit()
+                    pass
+            # individual_url = 'https://kr.investing.com' + sid[2] + '-news'
+            # req = Request(individual_url)
+            # req.add_header('User-Agent', 'Mozilla/5.0')
+            # html = urlopen(req).read()
+            # soup = BeautifulSoup(html, "html.parser")
+            # stock_name = soup.find(class_='float_lang_base_1 relativeAttr').text.strip()
+            # soup = soup.find_all(class_="mediumTitle1")[1]
+            # soup = soup.find_all(class_='textDiv')
+
+            encode_kr = urllib.parse.quote_plus(sid[1])
+            individual_url = 'https://search.naver.com/search.naver?where=news&sm=tab_jum&query=' + encode_kr
             req = Request(individual_url)
             req.add_header('User-Agent', 'Mozilla/5.0')
             html = urlopen(req).read()
             soup = BeautifulSoup(html, "html.parser")
-            stock_name = soup.find(class_='float_lang_base_1 relativeAttr').text.strip()
-            soup = soup.find_all(class_="mediumTitle1")[1]
-            soup = soup.find_all(class_='textDiv')
-            for article in soup:
-                title = article.find('a').text
-                href = article.find('a')['href']
-                if 'https://' not in href:
-                    href = 'https://kr.investing.com/' + href
+            soup = soup.find(class_='list_news')
+            soup = soup.find_all(class_='news_tit')
+            for news in soup:
+                title = news['title']
+                href = news['href']
                 if href not in queue_individual_kr:
                     count_individual_kr += 1
                     if count_individual_kr > 1000000:
@@ -217,17 +241,16 @@ def crawl_individual_kr():
                         for i in range(500000):
                             del queue_naver[0]
                     queue_individual_kr.append(href)
-                    msg = "\n[" + stock_name + " 뉴스" + "]\n" + title + "\n" + href
-                    if check_individual[sid[0]] == 0:
+                    msg = "\n[" + sid[1] + " 뉴스" + "]\n" + title + "\n" + href
+                    if check_individual[str(sid[0])] == 0:
                         continue
                     for user_usnum in user_list:
                         updater.bot.send_message(
                             chat_id=user_usnum[0],
                             text=msg,
                         )
-                    print(msg)
-            if check_individual[sid[0]] == 0:
-                check_individual[sid[0]] = 1
+            if check_individual[str(sid[0])] == 0:
+                check_individual[str(sid[0])] = 1
         except ValueError:
             count_individual_kr_err += 1
             print("error" + str(count_naver))
@@ -682,7 +705,8 @@ def get_message(update, context):  # 메세지 핸들링
         kr_stock_delete_id.remove(query.message.chat_id)
 
 
-def insert_kr_stock(user_stock_input, href, stock_name, update):
+def insert_kr_stock(user_stock_input, href, stock_name, update):    # 종목번호, 주소, 이름, update
+    global check_individual
     conn = pymysql.connect(host=db_ip, user=db_user, password=db_pw,
                            database=db_name, port=db_port);
     cursor = conn.cursor()
@@ -698,7 +722,6 @@ def insert_kr_stock(user_stock_input, href, stock_name, update):
         cursor.execute(sql)  # 데베에 주식 정보 등록
         save_log(sql)
         conn.commit()
-        check_individual[user_stock_input] = 0;
     cursor = conn.cursor()
     sql = "SELECT * FROM `kr_subs` WHERE `usnum` = '" \
           + str(update.message.chat_id) + "' and `krStockID` = " + user_stock_input + ";"
@@ -848,6 +871,7 @@ queue_popular = []
 queue_naver = []
 queue_individual_kr = []
 check_individual = {}
+temp_individual_list = []
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -886,6 +910,12 @@ elif pid != 0:  # child
     test = cursor.fetchall()
     for sid in test:
         check_individual[sid[0]] = 0
+        temp_individual_list.append(sid[0])
+    cursor = conn.cursor()
+    sql = "SELECT * FROM `user` WHERE `investKR_news` = 1 or `naver_news` = 1"
+    cursor.execute(sql)
+    save_log(sql)
+    test = cursor.fetchall()
     for tid in test:
         try:
             updater.bot.send_message(
@@ -903,10 +933,12 @@ elif pid != 0:  # child
             save_log(sql)
             conn.commit()
             time.sleep(100)
-    conn.close()
+
     # for_the_first = 1
     while True:  # 뉴스 크롤링 파트
         crawl_individual_kr()
-        crawl_invest(str_url)
-        crawl_naver()
+        # crawl_invest(str_url)
+        # crawl_naver()
         for_the_first = 1
+
+    conn.close()
