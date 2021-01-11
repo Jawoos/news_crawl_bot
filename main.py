@@ -196,20 +196,20 @@ def crawl_individual_kr():
     for sid in row:
         try:
             cursor = conn.cursor()
-            sql = "SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = " + sid[0]
+            sql = "SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = '" + sid[0] + "'"
             cursor.execute(sql)
             save_log(sql)
             user_list = cursor.fetchall()
             if len(user_list) == 0:     # 아무도 구독하지 않은 주식이면
                 time.sleep(2)
                 cursor = conn.cursor()
-                sql = "SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = " + sid[0]
+                sql = "SELECT `usnum` FROM `kr_subs` WHERE `krStockID` = '" + sid[0] + "'"
                 cursor.execute(sql)
                 save_log(sql)
                 user_list = cursor.fetchall()
                 if len(user_list) == 0:
                     cursor = conn.cursor()
-                    sql = "DELETE FROM `kr_stock_id` WHERE `krStockID` = " + sid[0]
+                    sql = "DELETE FROM `kr_stock_id` WHERE `krStockID` = '" + sid[0] + "'"
                     cursor.execute(sql)  # 데베에서 삭제
                     save_log(sql)
                     conn.commit()
@@ -608,7 +608,7 @@ def get_message(update, context):  # 메세지 핸들링
                 print('not_exit\n\n\n\n\n')
         else:
             print('add child = ' + str(ppid))
-            os.wait()
+            # os.wait()
         kr_stock_message_id.remove(query.message.chat_id)
     elif query.message.chat_id in kr_stock_delete_id:  # 국내 주식 삭제 검색
         ppid = os.fork()
@@ -701,7 +701,7 @@ def get_message(update, context):  # 메세지 핸들링
                 print('not_exit\n\n\n\n\n')
         else:
             print('add child = ' + str(ppid))
-            os.wait()
+            # os.wait()
         kr_stock_delete_id.remove(query.message.chat_id)
 
 
