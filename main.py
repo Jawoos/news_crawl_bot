@@ -19,6 +19,8 @@ from telegram.ext import CommandHandler, CallbackQueryHandler, MessageHandler, F
 from telegram import ChatAction
 import os
 
+from news_compare import compare_title, sub_special, morph_and_stopword
+
 
 def save_log(log_msg):
     date = str(datetime.today().year) + '-' + str(datetime.today().month) + '-' + str(datetime.today().day)
@@ -65,12 +67,12 @@ def signal_handler(sig, frame):
         sql = "SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1"
         cursor.execute(sql)
         save_log(sql)
-        test = cursor.fetchall()
-        for tid in test:
-            updater.bot.send_message(
-                chat_id=tid[0],
-                text='봇이 정지 되었습니다!!!\n금방 다시 실행되겠습니다~~!',
-            )
+        # test = cursor.fetchall()
+        # # for tid in test:
+        # #     updater.bot.send_message(
+        # #         chat_id=tid[0],
+        # #         text='봇이 정지 되었습니다!!!\n금방 다시 실행되겠습니다~~!',
+        # #     )
         conn.close()
     os._exit(0)
 
@@ -107,7 +109,7 @@ def crawl_invest(str0):
                 test = cursor.fetchall()
                 # print('test\n\n\n')
                 for tid in test:
-                    print(tid[0])
+                    # print(tid[0])
                     # bot_origin.sendMessage(tid[0], msg)
                     updater.bot.send_message(
                         chat_id=tid[0],
@@ -214,15 +216,6 @@ def crawl_individual_kr():
                     save_log(sql)
                     conn.commit()
                     pass
-            # individual_url = 'https://kr.investing.com' + sid[2] + '-news'
-            # req = Request(individual_url)
-            # req.add_header('User-Agent', 'Mozilla/5.0')
-            # html = urlopen(req).read()
-            # soup = BeautifulSoup(html, "html.parser")
-            # stock_name = soup.find(class_='float_lang_base_1 relativeAttr').text.strip()
-            # soup = soup.find_all(class_="mediumTitle1")[1]
-            # soup = soup.find_all(class_='textDiv')
-
             encode_kr = urllib.parse.quote_plus(sid[1])
             individual_url = 'https://search.naver.com/search.naver?where=news&sm=tab_jum&query=' + encode_kr
             req = Request(individual_url)
@@ -234,13 +227,15 @@ def crawl_individual_kr():
             for news in soup:
                 title = news['title']
                 href = news['href']
-                if href not in queue_individual_kr:
+                compare_num = compare_title(queue_individual_kr, title)
+                # print(title + str(compare_num))
+                if compare_num < 0.5:
                     count_individual_kr += 1
                     if count_individual_kr > 1000000:
                         count_individual_kr = 500000
                         for i in range(500000):
                             del queue_naver[0]
-                    queue_individual_kr.append(href)
+                    queue_individual_kr.append(title)
                     msg = "\n[" + sid[1] + " 뉴스" + "]\n" + title + "\n" + href
                     if check_individual[str(sid[0])] == 0:
                         continue
@@ -251,17 +246,15 @@ def crawl_individual_kr():
                         )
             if check_individual[str(sid[0])] == 0:
                 check_individual[str(sid[0])] = 1
-        except ValueError:
+        except :
             count_individual_kr_err += 1
-            print("error" + str(count_naver))
+            print("individual error" + str(count_individual_kr_err))
             if count_individual_kr_err >= 500:
-                print("err")
                 updater.bot.send_message(
                     chat_id=admin_id,
                     text="[" + time.asctime() + "]\n" + '개인 주식 크롤링 부분에 문제가 발생 했습니다.',
                 )
                 count_individual_kr_err = 0
-            time.sleep(10)
     time.sleep(10)
 
 
@@ -939,6 +932,11 @@ elif pid != 0:  # child
         crawl_individual_kr()
         # crawl_invest(str_url)
         # crawl_naver()
+        if for_the_first != 1 or queue_individual_kr_backup != queue_individual_kr:  # 새로운 뉴스 추가 되었을 때 or 처음일 때
+            temp_title_list = []
+            for title in queue_individual_kr:
+                temp_title = sub_special(title)
+                temp_title_list.append(morph_and_stopword(temp_title))
+            queue_individual_kr_backup = queue_individual_kr
         for_the_first = 1
-
     conn.close()
