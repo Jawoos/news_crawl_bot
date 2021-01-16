@@ -67,12 +67,12 @@ def signal_handler(sig, frame):
         sql = "SELECT `usnum` FROM `user` WHERE `investKR_news` = 1 or 'naver_news' = 1"
         cursor.execute(sql)
         save_log(sql)
-        # test = cursor.fetchall()
-        # # for tid in test:
-        # #     updater.bot.send_message(
-        # #         chat_id=tid[0],
-        # #         text='봇이 정지 되었습니다!!!\n금방 다시 실행되겠습니다~~!',
-        # #     )
+        test = cursor.fetchall()
+        for tid in test:
+            updater.bot.send_message(
+                chat_id=tid[0],
+                text='봇이 정지 되었습니다!!!\n금방 다시 실행되겠습니다~~!',
+            )
         conn.close()
     os._exit(0)
 
@@ -91,7 +91,8 @@ def crawl_invest(str0):
             a = row.find('a')
             topic = a.text
             link = a.attrs['href']
-            if topic not in queue_popular:
+            compare_num = compare_title(queue_naver, topic)
+            if compare_num < 0.5:
                 queue_popular.append(topic)
                 count_popular += 1
                 if count_popular > 1000:
@@ -145,7 +146,8 @@ def crawl_naver():
         for row in soup:
             topic = row.text
             link = row.attrs['href']
-            if topic not in queue_naver:
+            compare_num = compare_title(queue_naver, topic)
+            if compare_num < 0.5:
                 queue_naver.append(topic)
                 count_naver += 1
                 if count_naver > 1000:
@@ -229,6 +231,7 @@ def crawl_individual_kr():
                 href = news['href']
                 compare_num = compare_title(queue_individual_kr, title)
                 # print(title + str(compare_num))
+                # time.sleep(1)
                 if compare_num < 0.5:
                     count_individual_kr += 1
                     if count_individual_kr > 1000000:
@@ -865,6 +868,8 @@ queue_naver = []
 queue_individual_kr = []
 check_individual = {}
 temp_individual_list = []
+temp_popular_list = []
+temp_naver_list = []
 
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -920,7 +925,7 @@ elif pid != 0:  # child
             )
         except telepot.exception.BotWasBlockedError:
             print("err", end=' ')
-            print(tid[0])
+            # print(tid[0])
             sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
             cursor.execute(sql_temp)
             save_log(sql)
@@ -930,13 +935,25 @@ elif pid != 0:  # child
     # for_the_first = 1
     while True:  # 뉴스 크롤링 파트
         crawl_individual_kr()
-        # crawl_invest(str_url)
-        # crawl_naver()
+        crawl_invest(str_url)
+        crawl_naver()
         if for_the_first != 1 or queue_individual_kr_backup != queue_individual_kr:  # 새로운 뉴스 추가 되었을 때 or 처음일 때
             temp_title_list = []
             for title in queue_individual_kr:
                 temp_title = sub_special(title)
                 temp_title_list.append(morph_and_stopword(temp_title))
             queue_individual_kr_backup = queue_individual_kr
+        if for_the_first != 1 or queue_popular_backup != queue_popular:  # 새로운 뉴스 추가 되었을 때 or 처음일 때
+            temp_title_list = []
+            for title in queue_popular:
+                temp_title = sub_special(title)
+                temp_title_list.append(morph_and_stopword(temp_title))
+            queue_popular_backup = queue_popular
+        if for_the_first != 1 or queue_naver_backup != queue_naver:  # 새로운 뉴스 추가 되었을 때 or 처음일 때
+            temp_title_list = []
+            for title in queue_naver:
+                temp_title = sub_special(title)
+                temp_title_list.append(morph_and_stopword(temp_title))
+            queue_naver_backup = queue_naver
         for_the_first = 1
     conn.close()

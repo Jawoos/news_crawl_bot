@@ -38,12 +38,11 @@ def morph_and_stopword(s):
     return temp_str
 
 
-def max_search(list):
-    n = len(list)
-    maxValue = list[0]
-    for i in range(1, n):
-        if maxValue < list[i]:
-            maxValue = list[i]
+def max_search(list_s):
+    maxValue = 0
+    for i in list_s:
+        if maxValue < i:
+            maxValue = i
     return maxValue
 
 
@@ -58,6 +57,7 @@ def compare_title(title_list, title_str):
     cosine_similarity_matrix = cosine_similarity_matrix.toarray()[cosine_similarity_matrix.shape[0] - 1]
     cosine_similarity_matrix = cosine_similarity_matrix.tolist()
     cosine_similarity_matrix = cosine_similarity_matrix[:len(cosine_similarity_matrix) - 1]
+    # print(cosine_similarity_matrix)
     return max_search(cosine_similarity_matrix)
 
 
