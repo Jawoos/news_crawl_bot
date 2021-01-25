@@ -266,5 +266,6 @@ log.txt
 improve/
 log/
 temp.py
+err_log
 
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm,venv

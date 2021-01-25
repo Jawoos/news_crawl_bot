@@ -34,6 +34,18 @@ def save_log(log_msg):
     log_file.close()
 
 
+def save_err_log(log_msg):
+    date = str(datetime.today().year) + '-' + str(datetime.today().month) + '-' + str(datetime.today().day)
+    path = './err_log/'
+    file_name = path + 'log(' + date + ').txt'
+    log_file = open(file_name, "a", encoding="UTF8")
+    log_file.write(time.asctime())
+    log_file.write(': ')
+    log_file.write(log_msg)
+    log_file.write('\n')
+    log_file.close()
+
+
 def save_improve(improve_msg):
     date = str(datetime.today().year) + '-' + str(datetime.today().month) + '-' + str(datetime.today().day)
     path = './improve/'
@@ -272,13 +284,20 @@ def start_command(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text=start_str)
     user = update.message.from_user
     if len(row) == 0:
-        cursor = conn.cursor()
-        sql = "INSERT INTO user(usnum, usname, investKR_news, naver_news) VALUES (" \
-              + str(update.effective_chat.id) + \
-              ", '" + user['first_name'] + " " + user['last_name'] + "', 0, 0);"
-        cursor.execute(sql)  # 데베에 유저 정보 등록
-        save_log(sql)
-        conn.commit()
+        try:
+            cursor = conn.cursor()
+            sql = "INSERT INTO user(usnum, usname, investKR_news, naver_news) VALUES (" \
+                  + str(update.effective_chat.id) + \
+                  ", '" + user['first_name'] + " " + user['last_name'] + "', 0, 0);"
+            cursor.execute(sql)  # 데베에 유저 정보 등록
+            save_log(sql)
+            conn.commit()
+        except TypeError as errname:
+            save_err_log(errname + "\n" + sql)
+            updater.bot.send_message(
+                chat_id=admin_id,
+                text="[" + time.asctime() + "]\n" + 'start 커맨드에 문제가 발생했습니다.',
+            )
     conn.close()
 
 
