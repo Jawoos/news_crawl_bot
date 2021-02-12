@@ -18,6 +18,8 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler, CallbackQueryHandler, MessageHandler, Filters, ConversationHandler
 from telegram import ChatAction
 import os
+import http.client
+
 
 from news_compare import compare_title, sub_special, morph_and_stopword
 
@@ -131,8 +133,33 @@ def crawl_invest(str0):
                 conn.close()
 
         time.sleep(60)
-    except ValueError:
+    except ValueError as err_msg:
         count_invest_err += 1
+        save_err_log(err_msg)
+        print("error" + str(count_invest_err))
+        if count_invest_err >= 500:
+            print("err")
+            updater.bot.send_message(
+                chat_id=admin_id,
+                text="[" + time.asctime() + "]\n" + 'kr.investing 크롤링 부분에 문제가 발생 했습니다.',
+            )
+            count_invest_err = 0
+        time.sleep(10)
+    except urllib.error.URLError as err_msg:
+        count_invest_err += 1
+        save_err_log(err_msg)
+        print("error" + str(count_invest_err))
+        if count_invest_err >= 500:
+            print("err")
+            updater.bot.send_message(
+                chat_id=admin_id,
+                text="[" + time.asctime() + "]\n" + 'kr.investing 크롤링 부분에 문제가 발생 했습니다.',
+            )
+            count_invest_err = 0
+        time.sleep(10)
+    except http.client.IncompleteRead as err_msg:
+        count_invest_err += 1
+        save_err_log(err_msg)
         print("error" + str(count_invest_err))
         if count_invest_err >= 500:
             print("err")
@@ -249,7 +276,7 @@ def crawl_individual_kr():
                     if count_individual_kr > 1000000:
                         count_individual_kr = 500000
                         for i in range(500000):
-                            del queue_naver[0]
+                            del queue_individual_kr[0]
                     queue_individual_kr.append(title)
                     msg = "\n[" + sid[1] + " 뉴스" + "]\n" + title + "\n" + href
                     if check_individual[str(sid[0])] == 0:
@@ -830,6 +857,7 @@ start_str = "안녕하세요 채팅봇 베타 버전입니다!!!\n" \
             "사용법은 /help를 통해 보실수 있습니다."
 
 help_str = "안녕하세요 채팅봇 베타 버전입니다!!!\n" \
+           "다양한 기능을 사용하시고 싶으시면 /tasks를 입력해 주세요.\n" \
            "현재 사용 가능한 기능은 아래와 같습니다~\n" \
            "추가로 있었으면 하는 기능이나 문제점을 발견시\n" \
            "말씀해 주시면 감사하겠습니다!!!\n" \
