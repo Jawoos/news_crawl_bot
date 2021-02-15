@@ -105,7 +105,7 @@ def crawl_invest(str0):
             a = row.find('a')
             topic = a.text
             link = a.attrs['href']
-            compare_num = compare_title(queue_naver, topic)
+            compare_num = compare_title(queue_popular, topic)
             if compare_num < 0.5:
                 queue_popular.append(topic)
                 count_popular += 1
