@@ -7,8 +7,8 @@
 - [사용된 언어 및 라이브러리](#사용된-언어-및-라이브러리)
 - [사용법](#사용법)
 - [코드 구성](#코드-구성)   
-	- [main.py](#main.py)   
-	- [news_compare.py](#news_compare.py)  
+	- [main.py](#mainpy)   
+	- [news_compare.py](#news_comparepy)  
 
 ---
 ## 사용된 언어 및 라이브러리
