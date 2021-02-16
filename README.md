@@ -459,15 +459,10 @@ if 부모 프로세스:
     updater를 통해 메시지 입력 대기
     exit(0)
 elif 자식 프로세스:
-    conn = pymysql.connect(host=db_ip, user=db_user, password=db_pw, database=db_name, port=db_port);
-    cursor = conn.cursor()
-    sql = "SELECT `krStockID` FROM `kr_stock_id` WHERE 1"
-    cursor.execute(sql)
     SQL문 로그 저장
     test = DB에서 현재 서비스 이용중인 사용자 리스트 받기
     for sid in test:
-        check_individual[sid[0]] = 0
-        temp_individual_list.append(sid[0])
+        temp_individual_list에 사용자 리스트 추가
     SQL문 로그 저장
     test = 현재 국내외 뉴스 구독중인 사용자 리스트 받아오기
     for tid in test:
