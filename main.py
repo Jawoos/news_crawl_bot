@@ -44,7 +44,7 @@ def save_err_log(log_msg):
     log_file = open(file_name, "a", encoding="UTF8")
     log_file.write(time.asctime())
     log_file.write(': ')
-    log_file.write(log_msg)
+    log_file.write(str(log_msg))
     log_file.write('\n')
     log_file.close()
 
