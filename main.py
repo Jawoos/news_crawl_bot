@@ -17,6 +17,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater
 from telegram.ext import CommandHandler, CallbackQueryHandler, MessageHandler, Filters, ConversationHandler
 from telegram import ChatAction
+import telegram
 import os
 import http.client
 
@@ -971,6 +972,14 @@ elif pid != 0:  # child
                      "사용법이 궁금하시다면 /help 를 입력해주세요!!",
             )
         except telepot.exception.BotWasBlockedError:
+            print("err", end=' ')
+            # print(tid[0])
+            sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+            cursor.execute(sql_temp)
+            save_log(sql)
+            conn.commit()
+            time.sleep(100)
+        except telegram.error.Unauthorized:
             print("err", end=' ')
             # print(tid[0])
             sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
