@@ -265,10 +265,19 @@ def crawl_individual_kr():
             html = urlopen(req).read()
             soup = BeautifulSoup(html, "html.parser")
             soup = soup.find(class_='list_news')
-            soup = soup.find_all(class_='news_tit')
+            # soup = soup.find_all(class_='news_tit')
+            soup = soup.find_all(class_='news_area')
             for news in soup:
-                title = news['title']
-                href = news['href']
+                th = news.find(class_='news_tit')
+                # title = news['title']
+                # href = news['href']
+                title = th['title']
+                href = th['href']
+                nd = news.find(class_='info_group')
+                news_date = nd.find("span",{"class":"info"}).text
+                if '시간' not in news_date:
+                    continue
+                # print(news_date)
                 compare_num = compare_title(queue_individual_kr, title)
                 # print(title + str(compare_num))
                 # time.sleep(1)
@@ -962,31 +971,31 @@ elif pid != 0:  # child
     cursor.execute(sql)
     save_log(sql)
     test = cursor.fetchall()
-    for tid in test:
-        try:
-            updater.bot.send_message(
-                chat_id=tid[0],
-                text="봇이 다시 실행 되었습니다!\n"
-                     "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
-                     "기능을 이용하시려면 /tasks 를 입력해주세요."
-                     "사용법이 궁금하시다면 /help 를 입력해주세요!!",
-            )
-        except telepot.exception.BotWasBlockedError:
-            print("err", end=' ')
-            # print(tid[0])
-            sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
-            cursor.execute(sql_temp)
-            save_log(sql)
-            conn.commit()
-            time.sleep(100)
-        except telegram.error.Unauthorized:
-            print("err", end=' ')
-            # print(tid[0])
-            sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
-            cursor.execute(sql_temp)
-            save_log(sql)
-            conn.commit()
-            time.sleep(100)
+    # for tid in test:
+    #     try:
+    #         updater.bot.send_message(
+    #             chat_id=tid[0],
+    #             text="봇이 다시 실행 되었습니다!\n"
+    #                  "유익한 뉴스를 다시 제공해 드리겠습니다~~!!\n"
+    #                  "기능을 이용하시려면 /tasks 를 입력해주세요."
+    #                  "사용법이 궁금하시다면 /help 를 입력해주세요!!",
+    #         )
+    #     except telepot.exception.BotWasBlockedError:
+    #         print("err", end=' ')
+    #         # print(tid[0])
+    #         sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+    #         cursor.execute(sql_temp)
+    #         save_log(sql)
+    #         conn.commit()
+    #         time.sleep(100)
+    #     except telegram.error.Unauthorized:
+    #         print("err", end=' ')
+    #         # print(tid[0])
+    #         sql_temp = "DELETE FROM `user` WHERE `usnum` = " + str(tid[0])
+    #         cursor.execute(sql_temp)
+    #         save_log(sql)
+    #         conn.commit()
+    #         time.sleep(100)
 
     # for_the_first = 1
     while True:  # 뉴스 크롤링 파트
