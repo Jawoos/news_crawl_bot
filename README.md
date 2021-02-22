@@ -9,6 +9,7 @@
 - [코드 구성](#코드-구성)   
 	- [main.py](#mainpy)   
 	- [news_compare.py](#news_comparepy)  
+- [업데이트 사항](#업데이트-사항)
 
 ---
 ## 사용된 언어 및 라이브러리
